@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="com.zhzt.pmpweb.entity.ProcessGroupName">
+        <table name="t_ProcessGroupName" schema="PMPWEB" catalog=""/>
+        <attributes>
+            <id name="pgId">
+                <column name="pgID" precision="11"/>
+            </id>
+            <basic name="pgName">
+                <column name="pgName"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
