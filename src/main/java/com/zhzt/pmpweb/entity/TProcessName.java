@@ -8,8 +8,6 @@ import java.util.Objects;
 public class TProcessName {
     private int pId;
     private String pName;
-    private int belongedProcessGroupId;
-    private int belongedKnowledgeScopeId;
     private String details;
 
     @Id
@@ -33,26 +31,6 @@ public class TProcessName {
     }
 
     @Basic
-    @Column(name = "belongedProcessGroupID", nullable = false)
-    public int getBelongedProcessGroupId() {
-        return belongedProcessGroupId;
-    }
-
-    public void setBelongedProcessGroupId(int belongedProcessGroupId) {
-        this.belongedProcessGroupId = belongedProcessGroupId;
-    }
-
-    @Basic
-    @Column(name = "belongedKnowledgeScopeID", nullable = false)
-    public int getBelongedKnowledgeScopeId() {
-        return belongedKnowledgeScopeId;
-    }
-
-    public void setBelongedKnowledgeScopeId(int belongedKnowledgeScopeId) {
-        this.belongedKnowledgeScopeId = belongedKnowledgeScopeId;
-    }
-
-    @Basic
     @Column(name = "details", nullable = true, length = -1)
     public String getDetails() {
         return details;
@@ -68,14 +46,12 @@ public class TProcessName {
         if (o == null || getClass() != o.getClass()) return false;
         TProcessName that = (TProcessName) o;
         return pId == that.pId &&
-                belongedProcessGroupId == that.belongedProcessGroupId &&
-                belongedKnowledgeScopeId == that.belongedKnowledgeScopeId &&
                 Objects.equals(pName, that.pName) &&
                 Objects.equals(details, that.details);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pId, pName, belongedProcessGroupId, belongedKnowledgeScopeId, details);
+        return Objects.hash(pId, pName, details);
     }
 }
