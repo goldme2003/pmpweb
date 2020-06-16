@@ -3,8 +3,10 @@ package com.zhzt.pmpweb.controller;
 
 import com.zhzt.pmpweb.entity.ProcessGroupName;
 import com.zhzt.pmpweb.entity.TKnowledgeName;
+import com.zhzt.pmpweb.entity.TProcessName;
 import com.zhzt.pmpweb.repo.ProcessGroupNameRepo;
 import com.zhzt.pmpweb.repo.TKnowledgeNameRepo;
+import com.zhzt.pmpweb.repo.TProcessNameRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
