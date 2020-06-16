@@ -24,6 +24,7 @@ public class MainController {
     private TProcessNameRepo tProcessNameRepo;
 
     private ProcessGroupName tempPgName;
+    private TKnowledgeName tempKsName;
 
     @GetMapping("/getallpg")
     public Iterable<ProcessGroupName> getAllPGN() {
@@ -31,8 +32,20 @@ public class MainController {
         return processGroupNameRepo.findAll();
     }
 
+    @GetMapping("/getallks")
+    public Iterable<TKnowledgeName> getAllKSN() {
+
+        return tKnowledgeNameRepo.findAll();
+    }
+
+    @GetMapping("/getallpn")
+    public Iterable<TProcessName> getAllPN() {
+
+        return tProcessNameRepo.findAll();
+    }
+
     @PostMapping("/addpg")
-    public String addNewpg(@RequestParam("name") String pgname) {
+    public String addNewpg(@RequestParam("pgname") String pgname) {
         tempPgName = new ProcessGroupName();
         tempPgName.setPgName(pgname);
         try
@@ -47,17 +60,23 @@ public class MainController {
         return "new Progress Group Name has been saved.";
     }
 
-    @GetMapping("/getallks")
-    public Iterable<TKnowledgeName> getAllKSN() {
-
-        return tKnowledgeNameRepo.findAll();
+    @PostMapping("/addks")
+    public void addNewks(@RequestParam("ksname") String ksname) {
+        tempKsName = new TKnowledgeName();
+        tempKsName.setKsName(ksname);
+        try
+        {
+            tKnowledgeNameRepo.save(tempKsName);
+            System.out.println("new Knowledge scope has been saved!!");
+        }
+        catch (Exception e)
+        {
+            System.out.print(e);
+        }
+//        return "new Knowledge Scope has been saved.";
     }
 
-    @GetMapping("/getallpn")
-    public Iterable<TProcessName> getAllPN() {
 
-        return tProcessNameRepo.findAll();
-    }
 
     @GetMapping("/test")
     public String testReturn(@RequestParam("tv") String testString){
