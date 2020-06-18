@@ -4,9 +4,11 @@ package com.zhzt.pmpweb.controller;
 import com.zhzt.pmpweb.entity.ProcessGroupName;
 import com.zhzt.pmpweb.entity.TKnowledgeName;
 import com.zhzt.pmpweb.entity.TProcessName;
+import com.zhzt.pmpweb.entity.TToolCateg;
 import com.zhzt.pmpweb.repo.ProcessGroupNameRepo;
 import com.zhzt.pmpweb.repo.TKnowledgeNameRepo;
 import com.zhzt.pmpweb.repo.TProcessNameRepo;
+import com.zhzt.pmpweb.repo.TToolCategRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +22,17 @@ public class MainController {
     private TKnowledgeNameRepo tKnowledgeNameRepo;
     @Autowired
     private TProcessNameRepo tProcessNameRepo;
+    @Autowired
+    private TToolCategRepo tToolCategRepo;
 
     private ProcessGroupName tempPgName;
     private TKnowledgeName tempKsName;
+    private TProcessName tempPnName;
+    private TToolCateg temptcName;
+
+    /*get method
+    *
+    * */
 
     @GetMapping("/getallpg")
     public Iterable<ProcessGroupName> getAllPGN() {
@@ -41,6 +51,15 @@ public class MainController {
 
         return tProcessNameRepo.findAll();
     }
+
+    @GetMapping("/getalltc")
+    public Iterable<TToolCateg> getAllTC() {
+
+        return tToolCategRepo.findAll();
+    }
+    /*
+    * add methods
+    * */
 
     @PostMapping("/addpg")
     public String addNewpg(@RequestParam("pgname") String pgname) {
@@ -73,6 +92,51 @@ public class MainController {
         }
 //        return "new Knowledge Scope has been saved.";
     }
+
+    @PostMapping("/addpn")
+    public void addNewpn(@RequestParam("pnname") String pnname, @RequestParam("bks") Integer bks, @RequestParam("bpg") Integer bpg, @RequestParam("dt") String dt) {
+
+        tempPnName = new TProcessName();
+        if (bks != null && bpg != null && pnname != null) {
+            tempPnName.setpName(pnname);
+            tempPnName.setBelongedKnowledgeScopeId(bks);
+            tempPnName.setBelongedProcessGroupId(bpg);
+            tempPnName.setDetails(dt);
+        }
+
+        try
+        {
+            tProcessNameRepo.save(tempPnName);
+            System.out.println("new process has been saved!!");
+        }
+        catch (Exception e)
+        {
+            System.out.print(e);
+        }
+//        return "new Knowledge Scope has been saved.";
+    }
+
+    @PostMapping("/addtc")
+    public void addNewtc(@RequestParam("tcname") String tcname) {
+         temptcName = new TToolCateg();
+         temptcName.setTcName(tcname);
+
+        try
+        {
+            tToolCategRepo.save(temptcName);
+            System.out.println("new Knowledge scope has been saved!!");
+        }
+        catch (Exception e)
+        {
+            System.out.print(e);
+        }
+//        return "new Knowledge Scope has been saved.";
+    }
+
+    /*
+    * update methods
+    *
+    * */
 
 
 

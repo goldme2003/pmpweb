@@ -9,6 +9,8 @@ public class TProcessName {
     private int pId;
     private String pName;
     private String details;
+    private int belongedProcessGroupId;
+    private int belongedKnowledgeScopeId;
 
     @Id
     @Column(name = "pID", nullable = false)
@@ -40,6 +42,24 @@ public class TProcessName {
         this.details = details;
     }
 
+    @Basic
+    @Column(name = "belongedProcessGroupId", nullable = false, length = 11)
+    public int getBelongedProcessGroupId() {
+        return belongedProcessGroupId;
+    }
+    @Basic
+    @Column(name = "belongedKnowledgeScopeId", nullable = false, length = 11)
+    public int getBelongedKnowledgeScopeId() {
+        return belongedKnowledgeScopeId;
+    }
+
+    public void setBelongedProcessGroupId(int belongedProcessGroupId) {
+        this.belongedProcessGroupId = belongedProcessGroupId;
+    }
+
+    public void setBelongedKnowledgeScopeId(int belongedKnowledgeScopeId) {
+        this.belongedKnowledgeScopeId = belongedKnowledgeScopeId;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
