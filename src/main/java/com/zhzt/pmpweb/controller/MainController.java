@@ -21,12 +21,18 @@ public class MainController {
     private TToolCategRepo tToolCategRepo;
     @Autowired
     private TToolRepo tToolRepo;
+    @Autowired
+    private TIttoCategRepo tIttoCategRepo;
+    @Autowired
+    private TIttoRepo tIttoRepo;
 
     private ProcessGroupName tempPgName;
     private TKnowledgeName tempKsName;
     private TProcessName tempPnName;
     private TToolCateg temptcName;
     private TTool temptoolName;
+    private TIttoItemCateg tempIttoCategName;
+    private TIttoItem tempIttoName;
 
     /*
     * swagger
@@ -41,6 +47,17 @@ public class MainController {
     /*get method
     *
     * */
+    @GetMapping("/getallitto")
+    public Iterable<TIttoItem> getAllITTO() {
+
+        return tIttoRepo.findAll();
+    }
+
+    @GetMapping("/getallittocateg")
+    public Iterable<TIttoItemCateg> getAllITTOCateg() {
+
+        return tIttoCategRepo.findAll();
+    }
 
     @GetMapping("/getallpg")
     public Iterable<ProcessGroupName> getAllPGN() {
@@ -76,7 +93,7 @@ public class MainController {
     * */
 
     @PostMapping("/addpg")
-    public String addNewpg(@RequestParam("pgname") String pgname) {
+    public void addNewpg(@RequestParam("pgname") String pgname) {
         tempPgName = new ProcessGroupName();
         tempPgName.setPgName(pgname);
         try
@@ -88,7 +105,6 @@ public class MainController {
         {
             System.out.print(e);
         }
-        return "new Progress Group Name has been saved.";
     }
 
     @PostMapping("/addks")
@@ -166,7 +182,51 @@ public class MainController {
         {
             System.out.print(e);
         }
-//        return "new Knowledge Scope has been saved.";
+
+    }
+
+    @PostMapping("/additto")
+    public void addNewItto(@RequestParam("itton") String ittoname, @RequestParam("bittoc") Integer bittoc, @RequestParam("ittodt") String ittodt) {
+
+        tempIttoName = new TIttoItem();
+        if (bittoc != null && ittoname != null) {
+            tempIttoName.setIttoItemName(ittoname);
+            tempIttoName.setBelongedIttoItemCateg(bittoc);
+            tempIttoName.setDetails(ittodt);
+
+        }
+
+        try
+        {
+            tIttoRepo.save(tempIttoName);
+            System.out.println("new itto has been saved!!");
+        }
+        catch (Exception e)
+        {
+            System.out.print(e);
+        }
+
+    }
+
+    @PostMapping("/addittocateg")
+    public void addNewIttoC(@RequestParam("ittocname") String ittocname, @RequestParam("ittocdt") String ittocdt) {
+
+        tempIttoCategName = new TIttoItemCateg();
+        if (ittocname != null) {
+            tempIttoCategName.setIttoCName(ittocname);
+            tempIttoCategName.setDetails(ittocdt);
+        }
+
+        try
+        {
+            tIttoCategRepo.save(tempIttoCategName);
+            System.out.println("new Itto category has been saved!!");
+        }
+        catch (Exception e)
+        {
+            System.out.print(e);
+        }
+
     }
 
     /*
