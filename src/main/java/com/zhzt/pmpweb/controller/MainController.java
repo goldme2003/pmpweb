@@ -1,16 +1,11 @@
 package com.zhzt.pmpweb.controller;
 
 
-import com.zhzt.pmpweb.entity.ProcessGroupName;
-import com.zhzt.pmpweb.entity.TKnowledgeName;
-import com.zhzt.pmpweb.entity.TProcessName;
-import com.zhzt.pmpweb.entity.TToolCateg;
-import com.zhzt.pmpweb.repo.ProcessGroupNameRepo;
-import com.zhzt.pmpweb.repo.TKnowledgeNameRepo;
-import com.zhzt.pmpweb.repo.TProcessNameRepo;
-import com.zhzt.pmpweb.repo.TToolCategRepo;
+import com.zhzt.pmpweb.entity.*;
+import com.zhzt.pmpweb.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/pmpweb")
@@ -24,11 +19,24 @@ public class MainController {
     private TProcessNameRepo tProcessNameRepo;
     @Autowired
     private TToolCategRepo tToolCategRepo;
+    @Autowired
+    private TToolRepo tToolRepo;
 
     private ProcessGroupName tempPgName;
     private TKnowledgeName tempKsName;
     private TProcessName tempPnName;
     private TToolCateg temptcName;
+    private TTool temptoolName;
+
+    /*
+    * swagger
+    * */
+    @RequestMapping(value = "/swagger")
+    public String index() {
+        System.out.println("swagger-ui.html");
+        return "redirect:swagger-ui.html";
+    }
+
 
     /*get method
     *
@@ -56,6 +64,12 @@ public class MainController {
     public Iterable<TToolCateg> getAllTC() {
 
         return tToolCategRepo.findAll();
+    }
+
+    @GetMapping("/getalltool")
+    public Iterable<TTool> getAllTool() {
+
+        return tToolRepo.findAll();
     }
     /*
     * add methods
@@ -125,6 +139,28 @@ public class MainController {
         {
             tToolCategRepo.save(temptcName);
             System.out.println("new Knowledge scope has been saved!!");
+        }
+        catch (Exception e)
+        {
+            System.out.print(e);
+        }
+//        return "new Knowledge Scope has been saved.";
+    }
+
+    @PostMapping("/addtool")
+    public void addNewtool(@RequestParam("tname") String tname, @RequestParam("btc") Integer btc, @RequestParam("dt") String tdt) {
+
+        temptoolName = new TTool();
+        if (btc != null && tname != null) {
+            temptoolName.setToolName(tname);
+            temptoolName.setBelongedToolCateg(btc);
+            temptoolName.setDetails(tdt);
+        }
+
+        try
+        {
+            tToolRepo.save(temptoolName);
+            System.out.println("new tool has been saved!!");
         }
         catch (Exception e)
         {
